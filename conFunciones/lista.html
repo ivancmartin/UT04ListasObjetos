@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Listas</title>
+</head>
+<body>
+    <h1>Implementación de listas</h1>
+    <h2>Instruciones:</h2>
+    <ul style="font-size:0.8em">
+        <li>Introducir  números: introducimos en el cuadro de texo y pulsamos Añadir.</li>
+        <li>Introducir  números en una posición concreta: en el 2º cuadro añadimos la posición, empezando desde la 0.</li>
+        <li>Eliminar  números: introducimos en el 2º cuadro de texo la posición ha borrar y pulsamos Eliminar.(los datos introducidos en el primer cuadro serán ignorados)</li>
+        <li>Eliminar  números concretos: En el 1º cuadro introducimos el númeroe ha borrar y pulsamos Eliminar.(Debes borrar )</li>
+    </ul>
+    <p>Número entero:</p>
+    <input type="text" id="num" name="num" value="" placeholder="Introduce un número entero">
+    <p>Posición del array (empieza en 0):</p>
+    <input type="text" id="poss" name="poss" value="" placeholder="Introduce el indice del array">
+    <button id="addElem" onclick="addElem(document.getElementById ('num').value,document.getElementById ('poss').value) " >Añadir</button>
+    <button id="rmvElem" onclick="rmvElem(document.getElementById ('num').value,document.getElementById ('poss').value) " >Eliminar</button>
+    <p id="error" style="color:red"></p>
+    <p id="info"></p>
+    <script src="js/listas.js"></script>
+</body>
+</html>
