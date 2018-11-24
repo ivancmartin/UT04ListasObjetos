@@ -19,11 +19,6 @@ function Lista (){
     var array = []; 
     const size = 5;
 
-    //tamaño actual del array
-    this.listSize = function (){
-        return array.length;
-    }
-
     //si la lista está vacía
     this.isEmpty = function(){
         return (this.listSize() === 0);
@@ -32,6 +27,11 @@ function Lista (){
     //si la lista esta llena
     this.isFull = function(){
         return (array.length >= size  ? true : false );
+    }
+
+    //tamaño actual del array
+    this.listSize = function (){
+        return array.length;
     }
 
     //añade un objeto de tipo Persona fuera
@@ -54,28 +54,131 @@ function Lista (){
     }
     
     //Añade a la lista un elemento de tipo Number y devuelve el tamaño actual del array
-    this.addAt = function(objPerson,index){
+    this.addPersonAt = function(objPerson,index){
         
         //Eso no es un Objeto persona
         if(!(objPerson instanceof Person)){
             throw "Eso no es un Objeto persona";
         }
-        //control sobre el indice: si esta fuera de rango o no es un numero  
-        if((index < 0 || index > tam)){
+        //control sobre el indice: si esta fuera de rango 
+        if((index < 0 || index > this.size)){
             throw "Eso no es un indice válido (max " + tam + " )...";
         }
         //si la lista NO está llena
-        if(!isFull(list)){
+        if(!this.isFull()){
+            
             //si está vacía se añade al principio
-            if(isEmpty(list)){
-                list.push(objPerson);
-            }else if(!undefined(list[index])){
-                list.splice(index, 0, objPerson);        
+            if(this.isEmpty()){
+               
+                array.push(objPerson);
+            }else if( (array[index]) instanceof Person ){
+                
+                array.splice(index, 0, objPerson);        
             }
         }else{
             throw "esto está lleno!";
         }
-        return size(list);
+        return this.listSize(array);
+    }
+
+    // devuelve el elemento encontrado en el indice selecionado dentro del array
+    this.getPerson = function(index){
+        if(array.includes(array[index])){
+            return array[index];
+        }else{
+            throw "El elemento no existe";
+        }
+    }
+
+    //vacia una lista de elementos: pasa los valores a NaN
+    this.clear = function(){
+        return array.splice(array,size);
+    }
+
+    //devuelve el 1º elemento de un array
+    this.firstElement = function(){
+        var last;
+        if(!this.isEmpty(array)){
+            last = array[0];
+        }else{
+            throw "La lista está vacía";
+        }
+        return last;
+    }
+
+    //devuelve el último elemento de un array
+    this.lastElement = function(){
+        var last;
+        if(!this.isEmpty(array)){
+            last = array[this.listSize() - 1];
+        }else{
+            throw "La lista está vacía";
+        }
+        return last;
+    }
+
+    //elimina el indice del array y devuelve el valor borrado
+    this.remove = function(index){
+
+        index = index || 0;
+
+        if(this.isEmpty(array)){    
+            throw "La lista está vacía";
+        }
+
+        var range = this.listSize(array)-1;
+        //console.log(range);
+        if(index > range || index < 0){    
+            throw "El indice es incorrecto: debe estar entre el 0 y " + range;
+        }
+        //guardamos el elemento que vamos a borrar
+        var deleted = array[index];
+        //borramos el elemento
+        array.splice(index,1,);
+        //devolvemos el elemento borrado
+        return deleted;
+    }
+
+    //elimina el indice del array
+    this.removeElement = function(elem){
+
+        if(this.isEmpty(array)){    
+            throw "La lista está vacía";
+        }
+
+        console.log("valor del elemento a borrar " + array.includes(elem));
+        
+        if(!array.includes(elem)){
+            throw "el valor no esta en la lista";
+        }
+        //recogemos el valor del indice de la 1º coincidencia
+        var index = array.indexOf(elem);
+        //guardamos el elemento que vamos a borrar
+        var deleted = array[index];
+        //borramos el elemento
+        array.splice(index,1,);
+        //devolvemos el elemento borrado
+        return deleted;
+    }
+    
+    //sustituye el valor del indice, devuelve el valor sustituido
+    this.set = function(elem,index){
+        
+        if(isEmpty(list)){    
+            throw "La lista está vacía";
+        }
+        
+        var range = size(list)-1;
+        
+        if(index > range || index < 0){    
+            throw "El indice es incorrecto: debe estar entre el 0 y " + range;
+        }
+
+        var replace = list[index]
+        
+        list.splice(index,1,elem);
+        
+        return replace;
     }
 
     //muestra por pantalla los valores del array
@@ -85,7 +188,9 @@ function Lista (){
         }
     }
 
-}
+        
+
+    }
 
 
 
@@ -94,7 +199,7 @@ function Lista (){
 function testListObj(){
 
     var per1 = new Person("ivan","cañizares");
-    var per2 = new Person("beatriz","perez");
+    var per2 = new Person("beatriz","moraleda");
     var per3 = new Person(); //objeto vacío
     var per4 = new Person("ruben","martin");
     var per5 = new Person("maria","caballero");
@@ -102,12 +207,27 @@ function testListObj(){
    
     var list = new Lista();
     
-    console.log(list.addPerson(per1));
-
+    list.addPerson(per1)
     list.addPerson(per2);
-    list.addPerson(per3);
-    list.addPerson(per4);
-    
+    console.log(list.addPersonAt(per4,0));
+    list.addPerson(per5);
+    var PerAux = list.getPerson(0);
+    console.log("Persona en la posición 0 del array: " + PerAux.name) ;
+    //console.log(list.clear());
+
+    var PerAux = list.firstElement();
+    console.log("1º persona del array: " + PerAux.name);
+
+    var PerAux = list.lastElement();
+    console.log("última persona del array: " + PerAux.name);
+
+    var PerAux = list.remove();
+    console.log("Elemento borrado del array (posicion por defecto: 0): " + PerAux.name);
+
+    var PerAux = list.removeElement(per1);
+    console.log("Elemento borrado del array (posicion por defecto: 0): " + PerAux.name);
+
+    /*
     try {
         list.addPerson(per6);//este debe lanzar la excepción: no es una instancia de "Persona" ya que es un objeto "Persona1")
     } catch (error) {
@@ -119,6 +239,7 @@ function testListObj(){
     } catch (error) {
         console.log(error);
     }
+    */
 
     console.log("El tamaño actual de la lista es:" + list.listSize()); 
 
