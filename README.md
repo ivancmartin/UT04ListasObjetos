@@ -64,3 +64,11 @@ listasOrdenadas -> Objetos principales:
         + outOfIndex(myError): indice fuera de rango.
         + incorrectIndex(myError): indice introducido incorrecto.
     - testListObj: testeo de las funciones del objeto Lista.
+
+#0.1.2
+Ajustes de la función fullname():
+    - Ahora si recoge los nombres de los objetos por defecto.
+Ajustes de la funcion toStringArray():
+    - ahora devuelve una cadena en lugar de solo mostrarlos por pantalla.
+funcion añadida (listas,listasOrdenadas):
+    + mainPerson(): funcion principal.

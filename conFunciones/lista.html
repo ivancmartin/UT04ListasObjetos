@@ -6,6 +6,14 @@
 </head>
 <body>
     <h1>Implementación de listas con objetos</h1>
+    <p>Objeto persona:</p>
+    <input type="text" id="nombre" name="nombre" value="" placeholder="Introduce un nombre">
+    <input type="text" id="surname" name="surname" value="" placeholder="Introduce un apellido">
+
+    <button id="addElem" onclick="mainPerson(document.getElementById ('nombre').value,document.getElementById ('surname').value,1) " >Añadir</button>
+    <button id="rmvElem" onclick="mainPerson(document.getElementById ('nombre').value,document.getElementById ('surname').value,2)" >Eliminar</button>
+    <p id="error" style="color:red"></p>
+    <p id="info"></p>
     <script src="js/listas.js"></script>
 </body>
 </html>

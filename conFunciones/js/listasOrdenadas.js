@@ -5,7 +5,7 @@ function Person(name,surname){
     this.name = name || "default-name";
     this.surname = surname || "default-surname";
     this.fullname = function(){
-        return name + " " + surname;
+        return this.name + " " + this.surname;
     }
 }
 
@@ -14,7 +14,7 @@ function Person1(name,surname){
     this.name = name || "default-name";
     this.surname = surname || "default-surname";
     this.fullname = function(){
-        return name + " " + surname;
+        return this.name + " " + this.surname;
     }
 }
 
@@ -190,9 +190,17 @@ function Lista (){
 
     //muestra por pantalla los valores del array
     this.toStringArray = function(){
-        for (var i = 0; i < this.listSize(); i++) {
-            console.log(array[i].fullname());
+        var string = "";
+        if(this.isEmpty(array)){    
+            string = "Lista vacía";
+        }else{
+            for (var i = 0; i < this.listSize()-1; i++) {
+                string += array[i].fullname() + " - ";
+            }
+            string += array[i].fullname();
         }
+        
+        return string;
     }
 }
 /* fin objeto lista*/
@@ -261,10 +269,41 @@ function incorrectIndex(index){
 incorrectIndex.prototype = new myError(); //hereda de myError
 incorrectIndex.prototype.constructor = incorrectIndex; // creamos un constructor para este tipo de error
 
-
 /* fin objeto myError */
+var myList = new Lista();
+function mainPerson(name,surname,opc){
+    
+    var per1 = new Person(name,surname);
 
+    console.log(per1.fullname(),opc);
 
+    var error = document.getElementById("error");
+    var info = document.getElementById("info");
+
+    //1 añadir / 2 borrar
+    if (opc === 1) {
+        try {
+            console.log("persona añadida; Tamaño actual del array:" + myList.addPerson(per1));
+            error.innerHTML = "";
+        } catch (exception) {
+            error.innerHTML = exception;
+        }
+    }else{
+        try {
+            var PerAux = myList.remove();
+            console.log("Elemento borrado del array (posicion por defecto: 0): " + PerAux.name);
+            error.innerHTML = "";
+        } catch (exception) {
+            error.innerHTML = exception;
+        }
+    }
+    
+    console.log("lista actual:");
+    myList.toStringArray();
+
+    info.innerHTML = myList.toStringArray(); 
+   
+}
 
 //funciones de testeo
 function testListObj(){
@@ -294,7 +333,8 @@ function testListObj(){
     console.log("¿La lista está llena? " + list.isFull());
     
     console.log("lista actual:");
-    list.toStringArray();
+    var listaConsola = list.toStringArray();
+    console.log(listaConsola);
     
     //error al añadir un elemento al array cuando este está lleno
     console.log("Intento añadir un elemento al array cuando este está lleno");
@@ -342,13 +382,15 @@ function testListObj(){
     console.log("Elemento borrado del array (el valor del indice es 0 al no pasarle ningun parametro): " + PerAux.name);
 
     console.log("lista actual:");
-    list.toStringArray();
+    var listaConsola = list.toStringArray();
+    console.log(listaConsola);
 
     var PerAux = list.remove(1);
     console.log("Elemento borrado del array (1): " + PerAux.name);
 
     console.log("lista actual:");
-    list.toStringArray();
+    var listaConsola = list.toStringArray();
+    console.log(listaConsola);
 
     //error al intentar borrar un objeto que no se encuentra en el array
     console.log("Intento borrar un objeto que no está en el array");
@@ -360,13 +402,8 @@ function testListObj(){
     }
 
     console.log("lista actual:");
-    list.toStringArray();
-
-    var PerAux = list.set(per1);
-    console.log("Elemento borrado del array (posicion por defecto: 0): " + PerAux.name);
-
-    console.log("lista actual:");
-    list.toStringArray();
+    var listaConsola = list.toStringArray();
+    console.log(listaConsola);
 
     console.log("El tamaño actual de la lista es:" + list.listSize()); 
 
@@ -374,7 +411,8 @@ function testListObj(){
     console.log("persona añadida; Tamaño actual del array:" + list.addPerson(per5));
 
     console.log("lista actual:");
-    list.toStringArray();
+    var listaConsola = list.toStringArray();
+    console.log(listaConsola);
 
     console.log("¿La lista está vacía? " + list.isEmpty());
     console.log("¿La lista está llena? " + list.isFull());
@@ -383,7 +421,8 @@ function testListObj(){
     console.log(list.clear());
 
     console.log("lista actual:");
-    list.toStringArray();
+    var listaConsola = list.toStringArray();
+    console.log(listaConsola);
 
     //error al intentar borrar un objeto cuando el array está vacío
     console.log("Intento borrar un objeto cuando el array está vacío");
